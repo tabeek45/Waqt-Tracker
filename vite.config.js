@@ -3,6 +3,5 @@ import react from '@vitejs/plugin-react-swc'
 
 export default defineConfig({
   plugins: [react()],
-  // 🛑 Must match the repository name exactly!
   base: '/Waqt-Tracker/'
 })
