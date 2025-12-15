@@ -1,7 +1,7 @@
 // src/App.jsx
 // Simplified top-level application. Uses the modularized hook + theme file.
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
@@ -21,6 +21,33 @@ import AppTitle from './components/AppTitle.jsx';
 import usePrayerTimes from './hooks/usePrayerTimes';
 import { lightTheme, darkTheme } from './theme';
 
+// localStorage keys for UI preferences
+const UI_STORAGE_KEYS = {
+    DARK_MODE: 'waqt_tracker_darkMode',
+    TEMP_UNIT: 'waqt_tracker_tempUnit',
+    TIME_FORMAT: 'waqt_tracker_timeFormat',
+};
+
+// Load from localStorage with fallback
+const loadFromStorage = (key, defaultValue) => {
+    try {
+        const item = localStorage.getItem(key);
+        return item !== null ? JSON.parse(item) : defaultValue;
+    } catch (error) {
+        console.error(`Error loading ${key} from localStorage:`, error);
+        return defaultValue;
+    }
+};
+
+// Save to localStorage
+const saveToStorage = (key, value) => {
+    try {
+        localStorage.setItem(key, JSON.stringify(value));
+    } catch (error) {
+        console.error(`Error saving ${key} to localStorage:`, error);
+    }
+};
+
 function App() {
     const {
         locationLabel,
@@ -38,10 +65,23 @@ function App() {
     } = usePrayerTimes();
 
 
-    // UI preferences
-    const [darkMode, setDarkMode] = useState(false);
-    const [tempUnit, setTempUnit] = useState('C');
-    const [timeFormat, setTimeFormat] = useState('12h');
+    // UI preferences (persisted)
+    const [darkMode, setDarkMode] = useState(() => loadFromStorage(UI_STORAGE_KEYS.DARK_MODE, false));
+    const [tempUnit, setTempUnit] = useState(() => loadFromStorage(UI_STORAGE_KEYS.TEMP_UNIT, 'C'));
+    const [timeFormat, setTimeFormat] = useState(() => loadFromStorage(UI_STORAGE_KEYS.TIME_FORMAT, '12h'));
+
+    // Persist preferences
+    useEffect(() => {
+        saveToStorage(UI_STORAGE_KEYS.DARK_MODE, darkMode);
+    }, [darkMode]);
+
+    useEffect(() => {
+        saveToStorage(UI_STORAGE_KEYS.TEMP_UNIT, tempUnit);
+    }, [tempUnit]);
+
+    useEffect(() => {
+        saveToStorage(UI_STORAGE_KEYS.TIME_FORMAT, timeFormat);
+    }, [timeFormat]);
 
     const handleSettingsChange = (newSettings) => {
         setCurrentSettings(newSettings);

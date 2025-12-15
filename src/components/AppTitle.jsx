@@ -25,7 +25,7 @@ export default function AppTitle() {
                     component="h1"
                     sx={{
                         fontFamily: 'SyamsiahArabic, serif',
-                        fontSize: { xs: '1.6rem', sm: '2rem' },
+                        fontSize: { xs: '2rem', sm: '2rem' },
                         lineHeight: 1.1,
                         fontWeight: 'bold',
                         textAlign: 'center',

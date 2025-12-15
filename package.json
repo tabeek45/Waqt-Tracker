@@ -1,6 +1,5 @@
 {
-  "name": "namaz-time-app",
-  // 🟢 ADDED: GitHub Pages Homepage URL
+  "name": "waqt-tracker",
   "homepage": "https://tabeek45.github.io/Waqt-Tracker",
   "private": true,
   "version": "0.0.0",
@@ -10,7 +9,6 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    // 🟢 ADDED: Deployment Scripts
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
   },
