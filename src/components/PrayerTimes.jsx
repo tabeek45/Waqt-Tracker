@@ -132,7 +132,6 @@ export default function PrayerTimes({
                 container
                 spacing={2}
                 sx={{
-                    flexWrap: { xs: "wrap", md: "nowrap" },
                     justifyContent: "center",
                     alignItems: "stretch",
                 }}
@@ -156,11 +155,15 @@ export default function PrayerTimes({
                         <Grid
                             item
                             xs={6}
-                            md="auto"
+                            sm={4}
+                            md={4}
                             key={name}
                             sx={{
-                                flexGrow: { md: 1 },
-                                flexBasis: { md: 0 },
+                                // Fallback to 1 column on extremely small devices if needed
+                                '@media (max-width:350px)': {
+                                    flexBasis: '100%',
+                                    maxWidth: '100%'
+                                },
                                 aspectRatio: {
                                     xs: showActive ? "initial" : "1 / 1",
                                     md: "initial",

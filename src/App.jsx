@@ -123,7 +123,7 @@ function App() {
                 </Box>
 
                 {/* Mobile: Search placed below title */}
-                <Box sx={{ display: { xs: 'block', md: 'none' }, mb: 2 }}>
+                <Box sx={{ display: { xs: 'flex', md: 'none' }, justifyContent: 'center', mb: 2 }}>
                     <LocationSearch onLocationSelected={handleLocationSelected} />
                 </Box>
 

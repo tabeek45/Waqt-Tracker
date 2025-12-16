@@ -96,7 +96,7 @@ export default function Settings({
                         borderRadius: '8px',
                         padding: '20px',
                         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
-                        zIndex: 1000,
+                        zIndex: 1100,
                     }}
                 >
                     {/* Menu Content... (rest is unchanged) */}
