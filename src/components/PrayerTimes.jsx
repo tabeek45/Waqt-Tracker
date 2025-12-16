@@ -250,3 +250,6 @@ export default function PrayerTimes({
         </Box>
     );
 }
+
+
+// updated
