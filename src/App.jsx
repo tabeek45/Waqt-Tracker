@@ -166,14 +166,17 @@ function App() {
                     <>
                         <PrayerTimes times={times} locationTimezone={locationTimezone} timeFormat={timeFormat} />
                         <MethodSelector currentSettings={currentSettings} onSettingsChange={handleSettingsChange} />
-                        <PrayerTimeTable
-                            latitude={latitude}
-                            longitude={longitude}
-                            method={currentSettings.method}
-                            school={currentSettings.school}
-                            timeFormat={timeFormat}
-                        />
                     </>
+                )}
+
+                {!error && (
+                    <PrayerTimeTable
+                        latitude={latitude}
+                        longitude={longitude}
+                        method={currentSettings.method}
+                        school={currentSettings.school}
+                        timeFormat={timeFormat}
+                    />
                 )}
 
             </Container>

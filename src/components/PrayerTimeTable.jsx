@@ -193,7 +193,7 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
                                             '&:last-child td, &:last-child th': { border: 0 },
                                             backgroundColor: index % 2 === 0
                                                 ? 'transparent'
-                                                : (theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)')
+                                                : (theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)')
                                         }}
                                     >
                                         <TableCell component="th" scope="row" sx={{
