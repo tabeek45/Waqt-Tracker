@@ -17,6 +17,8 @@ import MethodSelector from './components/MethodSelector.jsx';
 import WeatherInfo from './components/WeatherInfo.jsx';
 import Settings from './components/Settings.jsx';
 import AppTitle from './components/AppTitle.jsx';
+// Import the new component
+import PrayerTimeTable from './components/PrayerTimeTable.jsx';
 
 import usePrayerTimes from './hooks/usePrayerTimes';
 import { lightTheme, darkTheme } from './theme';
@@ -164,6 +166,13 @@ function App() {
                     <>
                         <PrayerTimes times={times} locationTimezone={locationTimezone} timeFormat={timeFormat} />
                         <MethodSelector currentSettings={currentSettings} onSettingsChange={handleSettingsChange} />
+                        <PrayerTimeTable
+                            latitude={latitude}
+                            longitude={longitude}
+                            method={currentSettings.method}
+                            school={currentSettings.school}
+                            timeFormat={timeFormat}
+                        />
                     </>
                 )}
 
