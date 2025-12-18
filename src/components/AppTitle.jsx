@@ -30,15 +30,8 @@ export default function AppTitle() {
                         fontWeight: 'bold',
                         textAlign: 'center',
 
-                        color:
-                            theme.palette.mode === 'light'
-                                ? theme.palette.primary.main
-                                : theme.palette.primary.main,
-
-                        textShadow:
-                            theme.palette.mode === 'light'
-                                ? '0 0 14px rgba(0,0,0,0.55)'
-                                : '0 0 16px rgba(255,255,255,0.65)',
+                        color: theme.palette.primary.main,
+                        // textShadow removed for flat design
                     }}
                 >
                     Waqt

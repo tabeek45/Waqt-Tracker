@@ -85,13 +85,10 @@ export default function MethodSelector({ currentSettings, onSettingsChange }) {
         <Box sx={{ mt: 4, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, flexWrap: 'wrap' }}>
             <Box
                 sx={(theme) => ({
-                    backgroundColor: theme.palette.mode === 'dark'
-                        ? 'rgba(30, 30, 30, 0.4)'
-                        : 'rgba(255, 255, 255, 0.4)',
-                    backdropFilter: 'blur(10px)',
+                    backgroundColor: 'background.paper',
                     padding: '10px 20px',
                     borderRadius: '8px',
-                    border: `2px solid ${theme.palette.primary.main}`,
+                    border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
                     display: 'flex',
                     alignItems: 'center',
                     gap: 1.5,
@@ -101,13 +98,13 @@ export default function MethodSelector({ currentSettings, onSettingsChange }) {
                 <Typography
                     variant="body2"
                     sx={(theme) => ({
-                        color: theme.palette.mode === 'dark' ? '#fff' : '#000',
+                        color: 'text.primary',
                         fontWeight: 500,
                     })}
                 >
                     Based on: <Box component="span" sx={(theme) => ({
                         fontWeight: 'bold',
-                        color: theme.palette.mode === 'dark' ? '#fff' : '#000'
+                        color: 'text.primary'
                     })}>{currentDisplayLabel}</Box>
                 </Typography>
 
@@ -123,7 +120,7 @@ export default function MethodSelector({ currentSettings, onSettingsChange }) {
                         fontSize: '0.875rem',
                         cursor: 'pointer',
                         textDecoration: 'underline',
-                        transition: 'color 0.2s ease',
+                        transition: 'opacity 0.2s ease',
                         '&:hover': {
                             opacity: 0.8,
                         },

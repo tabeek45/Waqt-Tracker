@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import { useTheme } from '@mui/material/styles';
 
 // Function to format time as HH:MM AM/PM using timezone
 const formatTime = (date, timezone) => {
@@ -36,6 +37,7 @@ const formatDate = (date, timezone) => {
 };
 
 export default function DateAndTime({ locationTimezone }) {
+    const theme = useTheme();
     const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
     useEffect(() => {
@@ -55,7 +57,7 @@ export default function DateAndTime({ locationTimezone }) {
 
     return (
         <Paper
-            elevation={3}
+            elevation={0} // Flat
             sx={{
                 display: 'inline-flex',
                 flexDirection: 'column',
@@ -64,8 +66,7 @@ export default function DateAndTime({ locationTimezone }) {
                 py: 1,
                 borderRadius: 4,
                 bgcolor: 'background.paper',
-                border: '1px solid',
-                borderColor: 'divider'
+                border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
             }}
         >
             <Typography variant="h4" component="div" sx={{ fontWeight: 'bold', lineHeight: 1 }}>

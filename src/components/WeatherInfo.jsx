@@ -11,9 +11,9 @@ export default function WeatherInfo({
 }) {
     const theme = useTheme();
 
-    const bgColor = theme.palette.mode === 'dark'
-        ? 'rgba(30, 30, 30, 0.4)'
-        : 'rgba(255, 255, 255, 0.4)';
+
+    // Flat background color from theme
+    const bgColor = theme.palette.background.paper;
 
     const [weather, setWeather] = useState(null);
     const [aqi, setAqi] = useState(null);
@@ -131,7 +131,7 @@ export default function WeatherInfo({
                 spacing={2}
                 alignItems="flex-start"
                 justifyContent="center"
-                wrap="nowrap"
+                wrap="wrap"
             >
 
                 {/* Time Box */}
@@ -139,14 +139,13 @@ export default function WeatherInfo({
                     <Box sx={{
                         p: 2,
                         borderRadius: 2,
-                        border: `2px solid ${theme.palette.primary.main}`,
-                        backdropFilter: 'blur(10px)',
+                        border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
                         backgroundColor: bgColor,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        height: BOX_HEIGHT,
+                        minHeight: BOX_HEIGHT,
                     }}>
                         <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
                             <Box sx={{ fontSize: { xs: '1rem', md: '1.25rem' }, fontWeight: 700 }}>{currentTime}</Box>
@@ -163,13 +162,12 @@ export default function WeatherInfo({
                             p: 2,
                             borderRadius: 2,
                             border: `2px solid ${theme.palette.primary.main}`,
-                            backdropFilter: 'blur(10px)',
                             backgroundColor: bgColor,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             gap: 1,
-                            height: BOX_HEIGHT,
+                            minHeight: BOX_HEIGHT,
                         }}>
                             <Box sx={{ fontSize: { xs: '1.5rem', md: '1.8rem' } }}>{weatherInfo.icon}</Box>
 
@@ -195,16 +193,15 @@ export default function WeatherInfo({
                         <Box sx={{
                             p: 2,
                             borderRadius: 2,
-                            backdropFilter: 'blur(10px)',
+                            border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
                             backgroundColor: bgColor,
-                            border: `2px solid ${theme.palette.primary.main}`,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             gap: 1,
-                            height: BOX_HEIGHT,
+                            minHeight: BOX_HEIGHT,
                         }}>
-                            <Box sx={{ fontWeight: 600, fontSize: { xs: '0.9rem', md: '1rem' } }}>AQI:</Box>
+                            <Box sx={{ fontWeight: 600, fontSize: { xs: '0.9rem', md: '1rem' }, color: 'text.primary' }}>AQI:</Box>
 
                             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <Box sx={{

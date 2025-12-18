@@ -135,7 +135,7 @@ export default function usePrayerTimes() {
 
         const label = place.name && place.country
             ? `${place.name}, ${place.country}`
-            : normalizeCityName(place);
+            : normalizeCityName(place.name || '');
 
         setLocationLabel(label);
 

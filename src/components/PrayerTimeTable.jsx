@@ -101,10 +101,8 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
         return () => { active = false; };
     }, [expanded, latitude, longitude, method, school]);
 
-    // Background color logic matching other components
-    const tableBgColor = theme.palette.mode === 'dark'
-        ? 'rgba(30, 30, 30, 0.4)'
-        : 'rgba(255, 255, 255, 0.4)';
+    // Background color logic - using flat paper colors
+    const tableBgColor = theme.palette.background.paper;
 
     return (
         <Box sx={{ width: '100%', mt: 4, mb: 4 }}>
@@ -117,14 +115,15 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
                     cursor: 'pointer',
                     userSelect: 'none',
                     mb: 1,
-                    backgroundColor: theme.palette.mode === 'dark' ? 'rgba(30, 30, 30, 0.8)' : 'rgba(255, 255, 255, 0.8)',
+                    backgroundColor: theme.palette.background.paper,
                     padding: '8px 16px',
                     borderRadius: '8px',
+                    border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
                     width: 'fit-content',
-                    mx: 'auto'
+                    mx: 'auto',
                 }}
             >
-                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                <Typography variant="h6" sx={{ fontWeight: 600, color: theme.palette.text.primary }}>
                     Next 7 days prayer times
                 </Typography>
                 <IconButton
@@ -132,7 +131,8 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
                     sx={{
                         transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
                         transition: 'transform 0.3s',
-                        ml: 1
+                        ml: 1,
+                        color: theme.palette.text.primary
                     }}
                 >
                     <KeyboardArrowDownIcon />
@@ -149,23 +149,22 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
                         component={Paper}
                         sx={{
                             backgroundColor: tableBgColor,
-                            backdropFilter: 'blur(10px)',
-                            border: `2px solid ${theme.palette.primary.main}`,
+                            border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
                             borderRadius: 2,
-                            boxShadow: 3,
+                            boxShadow: 'none',
                             overflowX: 'auto',
                             width: '100%',
-                            maxWidth: '950px', // Fixed max width as requested
-                            mx: 'auto' // Center the table container
+                            maxWidth: '950px',
+                            mx: 'auto'
                         }}
                     >
                         <Table
                             size="small"
                             aria-label="prayer times table"
                             sx={{
-                                tableLayout: 'fixed', // Helps with consistent column sizing
+                                tableLayout: 'fixed',
                                 width: '100%',
-                                minWidth: { xs: '300px', sm: 'auto' } // Ensure it doesn't get too squashed on tiny screens
+                                minWidth: { xs: '300px', sm: 'auto' }
                             }}
                         >
                             <TableHead>
@@ -175,14 +174,15 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
                                         fontSize: { xs: '10px', sm: '18px' },
                                         whiteSpace: 'normal',
                                         wordBreak: 'break-word',
-                                        px: 1 // reduce padding to help with space
+                                        px: 1,
+                                        color: theme.palette.text.secondary
                                     }}>Date</TableCell>
-                                    <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1 }}>Fajr</TableCell>
-                                    <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1 }}>Sunrise</TableCell>
-                                    <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1 }}>Dhuhr</TableCell>
-                                    <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1 }}>Asr</TableCell>
-                                    <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1 }}>Maghrib</TableCell>
-                                    <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1 }}>Isha</TableCell>
+                                    <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1, color: theme.palette.text.secondary }}>Fajr</TableCell>
+                                    <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1, color: theme.palette.text.secondary }}>Sunrise</TableCell>
+                                    <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1, color: theme.palette.text.secondary }}>Dhuhr</TableCell>
+                                    <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1, color: theme.palette.text.secondary }}>Asr</TableCell>
+                                    <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1, color: theme.palette.text.secondary }}>Maghrib</TableCell>
+                                    <TableCell align="center" sx={{ fontWeight: 'bold', fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1, color: theme.palette.text.secondary }}>Isha</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
@@ -193,7 +193,7 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
                                             '&:last-child td, &:last-child th': { border: 0 },
                                             backgroundColor: index % 2 === 0
                                                 ? 'transparent'
-                                                : (theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)')
+                                                : (theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)') // clearer alternating rows
                                         }}
                                     >
                                         <TableCell component="th" scope="row" sx={{
@@ -201,16 +201,17 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
                                             wordBreak: 'break-word',
                                             fontSize: { xs: '10px', sm: '18px' },
                                             fontWeight: 'bold',
-                                            px: 1
+                                            px: 1,
+                                            color: theme.palette.text.primary
                                         }}>
                                             {row.readableDate}
                                         </TableCell>
-                                        <TableCell align="center" sx={{ fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1 }}>{formatTime(row.timings.Fajr, timeFormat)}</TableCell>
-                                        <TableCell align="center" sx={{ fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1 }}>{formatTime(row.timings.Sunrise, timeFormat)}</TableCell>
-                                        <TableCell align="center" sx={{ fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1 }}>{formatTime(row.timings.Dhuhr, timeFormat)}</TableCell>
-                                        <TableCell align="center" sx={{ fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1 }}>{formatTime(row.timings.Asr, timeFormat)}</TableCell>
-                                        <TableCell align="center" sx={{ fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1 }}>{formatTime(row.timings.Maghrib, timeFormat)}</TableCell>
-                                        <TableCell align="center" sx={{ fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1 }}>{formatTime(row.timings.Isha, timeFormat)}</TableCell>
+                                        <TableCell align="center" sx={{ fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1, color: theme.palette.text.primary }}>{formatTime(row.timings.Fajr, timeFormat)}</TableCell>
+                                        <TableCell align="center" sx={{ fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1, color: theme.palette.text.primary }}>{formatTime(row.timings.Sunrise, timeFormat)}</TableCell>
+                                        <TableCell align="center" sx={{ fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1, color: theme.palette.text.primary }}>{formatTime(row.timings.Dhuhr, timeFormat)}</TableCell>
+                                        <TableCell align="center" sx={{ fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1, color: theme.palette.text.primary }}>{formatTime(row.timings.Asr, timeFormat)}</TableCell>
+                                        <TableCell align="center" sx={{ fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1, color: theme.palette.text.primary }}>{formatTime(row.timings.Maghrib, timeFormat)}</TableCell>
+                                        <TableCell align="center" sx={{ fontSize: { xs: '10px', sm: '18px' }, whiteSpace: 'normal', wordBreak: 'break-word', px: 1, color: theme.palette.text.primary }}>{formatTime(row.timings.Isha, timeFormat)}</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
@@ -218,6 +219,6 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
                     </TableContainer>
                 )}
             </Collapse>
-        </Box>
+        </Box >
     );
 }

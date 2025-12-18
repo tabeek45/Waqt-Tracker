@@ -3,6 +3,8 @@ import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
+import MyLocationIcon from '@mui/icons-material/MyLocation';
+import Typography from '@mui/material/Typography';
 import { useTheme } from '@mui/material/styles';
 
 export default function LocationSearch({ onLocationSelected }) {
@@ -10,14 +12,26 @@ export default function LocationSearch({ onLocationSelected }) {
   const [options, setOptions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState('');
+  const [geoLoading, setGeoLoading] = useState(false);
+  const [resetKey, setResetKey] = useState(0); // Force reset component
   const theme = useTheme();
+
+  const currentLocationOption = {
+    id: 'current-location',
+    name: 'Use your current location',
+    country: '',
+    isCurrentLocation: true
+  };
 
   // Debounce search
   useEffect(() => {
     let active = true;
 
+    // Always show "Use your current location" if input is focused/empty or has text
+    const baseOptions = [currentLocationOption];
+
     if (!inputValue) {
-      setOptions([]);
+      setOptions(baseOptions);
       return undefined;
     }
 
@@ -26,9 +40,12 @@ export default function LocationSearch({ onLocationSelected }) {
       try {
         const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(inputValue)}&count=5&language=en`);
         const data = await res.json();
-        if (active) setOptions(data.results || []);
+        if (active) {
+          setOptions([currentLocationOption, ...(data.results || [])]);
+        }
       } catch (e) {
         console.error(e);
+        if (active) setOptions(baseOptions);
       } finally {
         if (active) setLoading(false);
       }
@@ -40,112 +57,142 @@ export default function LocationSearch({ onLocationSelected }) {
     };
   }, [inputValue]);
 
-  // Define transparent background for mode compliance
-  const inputBgColor = theme.palette.mode === 'dark'
-    ? 'rgba(30, 30, 30, 0.4)'
-    : 'rgba(255, 255, 255, 0.4)';
+  const handleCurrentLocation = () => {
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser');
+      return;
+    }
 
-  const inputHoverColor = theme.palette.mode === 'dark'
-    ? 'rgba(40, 40, 40, 0.5)'
-    : 'rgba(255, 255, 255, 0.5)';
+    setGeoLoading(true);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          // Use a more reliable/CORS-friendly reverse geocoding API
+          const res = await fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`);
+          const data = await res.json();
 
-  // Define the solid color for the floating label background
-  const labelBgColor = theme.palette.mode === 'dark'
-    ? theme.palette.grey[900] // Darker background for dark mode
-    : theme.palette.background.paper; // Standard white/light background for light mode
-
+          const locationData = {
+            latitude,
+            longitude,
+            name: data.city || data.locality || 'Current Location',
+            country: data.countryName || ''
+          };
+          onLocationSelected(locationData);
+        } catch (error) {
+          console.error("Reverse geocoding failed", error);
+          onLocationSelected({ latitude, longitude, name: 'Current Location', country: '' });
+        } finally {
+          setGeoLoading(false);
+          setInputValue('');
+          setResetKey(prev => prev + 1); // Force clear
+        }
+      },
+      (error) => {
+        console.error("Geolocation error", error);
+        setGeoLoading(false);
+        alert(`Geolocation error: ${error.message}. Please ensure location permissions are enabled.`);
+        setInputValue('');
+        setResetKey(prev => prev + 1);
+      },
+      { timeout: 10000 }
+    );
+  };
 
   return (
     <Box sx={{ width: '100%', maxWidth: 400, zIndex: 1000 }}>
       <Autocomplete
+        key={resetKey}
         id="location-search"
+        freeSolo={false}
         sx={{
-          // Hide dropdown arrow
           '& .MuiAutocomplete-popupIndicator': { display: 'none' },
-          '& .MuiAutocomplete-clearIndicator': { color: theme.palette.text.primary },
+          '& .MuiAutocomplete-clearIndicator': { color: theme.palette.text.secondary },
 
-          // Input Root Styling (Background, Blur, Height)
           '& .MuiOutlinedInput-root': {
-            backgroundColor: inputBgColor,
-            backdropFilter: 'blur(10px)',
-            // We remove the root border here and put it on the notchedOutline
+            backgroundColor: theme.palette.background.paper,
             borderRadius: '8px',
             minHeight: '56px',
-            '&:hover': { backgroundColor: inputHoverColor },
-            '&.Mui-focused': { backgroundColor: inputHoverColor },
+            paddingRight: '14px !important',
+            '&:hover .MuiOutlinedInput-notchedOutline': {
+              borderColor: theme.palette.primary.light,
+            },
+            '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+              borderColor: theme.palette.primary.main,
+            },
           },
-
-          // Notched Outline Styling (The Border itself)
           '& .MuiOutlinedInput-notchedOutline': {
-            // 🛑 FIX: Apply the custom border here, where MUI expects it
-            borderColor: theme.palette.primary.main,
-            borderWidth: '2px',
-            // Ensure rounded corners match the root
+            borderColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.2)',
+            borderWidth: '1px',
             borderRadius: '8px',
-            transition: 'border-color 0.3s ease, background-color 0.3s ease',
+            transition: 'border-color 0.2s',
           },
-          // Hover and Focused state borders
-          '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-            borderColor: theme.palette.primary.light,
-          },
-          '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-            borderColor: theme.palette.primary.main,
-          },
-
-
-          // Floating Label Styling (The text "Search Location")
           '& .MuiInputLabel-root': {
             color: theme.palette.text.secondary,
-            fontWeight: 500,
-            zIndex: 1,
-            // 🛑 FIX: Remove the manual background for the idle label.
-            // We only apply it when it is shrunk.
-            '@media (max-width:600px)': { color: theme.palette.mode === 'dark' ? '#fff' : '#555' },
-            '&.Mui-focused': { color: theme.palette.primary.main },
+            '&.Mui-focused': { color: theme.palette.primary.main }
           },
-
-          // 🛑 FIX: Apply background color and padding ONLY when the label is floating/shrunk
-          '& .MuiInputLabel-shrink': {
-            backgroundColor: labelBgColor,
-            padding: '0 4px', // Add padding to reveal the background
+          '& .MuiInputBase-input': {
+            color: theme.palette.text.primary,
+            fontWeight: 500
           },
-
-          // Input Text Styling
-          '& .MuiInputBase-input': { color: theme.palette.text.primary, fontWeight: 500 },
-
-          // Optional: To hide the legend (the automatically generated notch background)
-          // Since we are applying the background directly to the label text (.MuiInputLabel-shrink), 
-          // we can hide the legend to remove any potential visual conflicts.
-          '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline legend': {
-            // This ensures the notch is calculated but invisible, preventing border gaps.
-            width: '0.01px !important',
-            maxWidth: '0.01px !important',
-          },
-
         }}
-        open={open && (options.length > 0 || loading)}
-        onOpen={() => { if (inputValue.length > 0) setOpen(true); }}
+        open={open}
+        onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         isOptionEqualToValue={(option, value) => option.id === value.id}
-        getOptionLabel={(option) => `${option.name}, ${option.country}`}
+        getOptionLabel={(option) => {
+          if (option.isCurrentLocation) return option.name;
+          return `${option.name}, ${option.country}`;
+        }}
         options={options}
         loading={loading}
-        noOptionsText={null}
+        filterOptions={(x) => x}
+        value={null}
         onInputChange={(event, newInputValue, reason) => {
           setInputValue(newInputValue);
-          if (reason === 'input') setOpen(newInputValue.length > 0);
+          if (reason === 'input' || reason === 'reset') setOpen(true);
         }}
         onChange={(event, newValue) => {
           setOpen(false);
-          if (newValue) onLocationSelected(newValue);
+          setInputValue('');
+          if (newValue) {
+            if (newValue.isCurrentLocation) {
+              handleCurrentLocation();
+            } else {
+              onLocationSelected(newValue);
+              setResetKey(prev => prev + 1); // Reset input value for city selection too
+            }
+          }
+        }}
+        renderOption={(props, option) => {
+          const { key, ...otherProps } = props;
+
+          if (option.isCurrentLocation) {
+            return (
+              <li key={key} {...otherProps} style={{ borderBottom: `1px solid ${theme.palette.divider}`, backgroundColor: theme.palette.background.paper }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', color: theme.palette.primary.main, fontWeight: 'bold' }}>
+                  {geoLoading ? <CircularProgress size={20} sx={{ mr: 1 }} /> : <MyLocationIcon sx={{ mr: 1, fontSize: 20 }} />}
+                  <Typography variant="body2" sx={{ fontWeight: 600 }}>{option.name}</Typography>
+                </Box>
+              </li>
+            );
+          }
+          return (
+            <li key={key} {...otherProps}>
+              <Box>
+                <Typography variant="body1">{option.name}</Typography>
+                <Typography variant="caption" color="text.secondary">{option.country}</Typography>
+              </Box>
+            </li>
+          );
         }}
         renderInput={(params) => (
           <TextField
             {...params}
             label="Search Location"
             variant="outlined"
+            onClick={() => setOpen(true)}
             InputProps={{
-              // Note: We intentionally removed startAdornment to avoid conflicts.
               ...params.InputProps,
               endAdornment: (
                 <>

@@ -92,9 +92,7 @@ export default function PrayerTimes({ times, locationTimezone, timeFormat = "12h
     const prayerOrder = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"];
     const DESKTOP_BASE_HEIGHT = "140px";
 
-    const activeBgColor = theme.palette.mode === 'dark'
-        ? 'rgba(30, 30, 30, 0.4)'
-        : 'rgba(255, 255, 255, 0.4)';
+
 
     return (
         <Container
@@ -137,12 +135,10 @@ export default function PrayerTimes({ times, locationTimezone, timeFormat = "12h
                                     flexDirection: "column",
                                     justifyContent: "center",
                                     textAlign: "center",
-                                    transition: "transform 0.2s",
-                                    transform: showActive ? "scale(1.02)" : "scale(1)",
-                                    border: showActive ? `2px solid ${theme.palette.primary.main}` : "none",
-                                    boxShadow: showActive ? 6 : 1,
-                                    backgroundColor: showActive ? activeBgColor : "background.paper",
-                                    backdropFilter: showActive ? "blur(10px)" : "none",
+                                    // Scale transform removed for flat design
+                                    border: showActive ? `2px solid ${theme.palette.primary.main}` : (theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)'),
+                                    boxShadow: 'none',
+                                    backgroundColor: theme.palette.background.paper,
                                 }}
                             >
                                 <CardContent sx={{ py: 1.5, "&:last-child": { pb: 1.5 } }}>

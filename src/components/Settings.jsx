@@ -12,6 +12,7 @@ import Collapse from '@mui/material/Collapse';
 import { useTheme } from '@mui/material/styles';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
+import Divider from '@mui/material/Divider';
 
 export default function Settings({
     darkMode,
@@ -56,21 +57,15 @@ export default function Settings({
         <Box sx={{ position: 'relative', display: 'inline-block' }}>
             {/* Settings Cog Button */}
             <IconButton
-                // 🛑 Attach buttonRef here
                 ref={buttonRef}
                 onClick={handleToggle}
                 sx={{
-                    color: theme.palette.mode === 'dark' ? '#fff' : '#000',
-                    backgroundColor: theme.palette.mode === 'dark'
-                        ? 'rgba(255, 255, 255, 0.1)'
-                        : 'rgba(255, 255, 255, 0.4)',
-                    backdropFilter: 'blur(10px)',
-                    border: `2px solid ${theme.palette.primary.main}`,
+                    color: 'text.primary',
+                    backgroundColor: 'background.paper',
+                    border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
                     transition: 'all 0.3s ease',
                     '&:hover': {
-                        backgroundColor: theme.palette.mode === 'dark'
-                            ? 'rgba(255, 255, 255, 0.2)'
-                            : 'rgba(255, 255, 255, 0.5)',
+                        backgroundColor: theme.palette.mode === 'dark' ? '#1A2940' : '#F3F6F8',
                     },
                     transform: open ? 'rotate(90deg)' : 'rotate(0deg)',
                 }}
@@ -81,21 +76,17 @@ export default function Settings({
             {/* Settings Menu */}
             <Collapse in={open} timeout={200}>
                 <Box
-                    // 🛑 Attach containerRef here, to the Box *inside* the Collapse
                     ref={containerRef}
                     sx={{
                         position: 'absolute',
                         top: '60px',
                         right: 0,
                         minWidth: '280px',
-                        backgroundColor: theme.palette.mode === 'dark'
-                            ? 'rgba(30, 30, 30, 0.4)'
-                            : 'rgba(255, 255, 255, 0.4)',
-                        backdropFilter: 'blur(10px)',
-                        border: `2px solid ${theme.palette.primary.main}`,
+                        backgroundColor: 'background.paper',
+                        border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
                         borderRadius: '8px',
                         padding: '20px',
-                        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.3)',
+                        boxShadow: 'none',
                         zIndex: 1100,
                     }}
                 >
@@ -104,89 +95,58 @@ export default function Settings({
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                                 <LightModeIcon sx={{ color: theme.palette.mode === 'dark' ? '#b0b0b0' : theme.palette.primary.main, fontSize: '1.2rem' }} />
-                                <Typography sx={{ fontWeight: 600, color: theme.palette.mode === 'dark' ? '#fff' : '#000' }}>
+                                <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
                                     Theme
                                 </Typography>
-                                <DarkModeIcon sx={{ color: theme.palette.mode === 'dark' ? theme.palette.primary.main : '#b0b0b0', fontSize: '1.2rem' }} />
+                                <DarkModeIcon sx={{ color: theme.palette.mode === 'dark' ? theme.palette.primary.main : 'text.secondary', fontSize: '1.2rem' }} />
                             </Box>
                             <Switch
                                 checked={darkMode}
                                 onChange={(e) => onDarkModeChange(e.target.checked)}
-                                sx={{
-                                    '& .MuiSwitch-switchBase.Mui-checked': {
-                                        color: theme.palette.primary.main,
-                                    },
-                                    '& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
-                                        backgroundColor: theme.palette.primary.main,
-                                    },
-                                    '& .MuiSwitch-track': {
-                                        transition: 'background-color 0.3s ease',
-                                    },
-                                }}
                             />
                         </Box>
                     </Box>
 
                     {/* Divider */}
-                    <Box sx={{ height: '1px', backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)', mb: 2 }} />
+                    <Divider sx={{ mb: 2 }} />
 
                     {/* Temperature Unit Setting */}
                     <Box sx={{ mb: 2 }}>
-                        <Typography sx={{ fontWeight: 600, mb: 1, color: theme.palette.mode === 'dark' ? '#fff' : '#000' }}>
+                        <Typography sx={{ fontWeight: 600, mb: 1, color: 'text.primary' }}>
                             Temperature Unit
                         </Typography>
                         <RadioGroup row value={tempUnit} onChange={(e) => onTempUnitChange(e.target.value)} sx={{ justifyContent: 'space-around' }}>
                             <FormControlLabel
                                 value="C"
-                                control={
-                                    <Radio sx={{
-                                        color: theme.palette.mode === 'dark' ? '#fff' : '#000',
-                                        '&.Mui-checked': { color: theme.palette.primary.main },
-                                    }} />
-                                }
-                                label={<Typography sx={{ color: theme.palette.mode === 'dark' ? '#fff' : '#000' }}>Celsius</Typography>}
+                                control={<Radio />}
+                                label={<Typography sx={{ color: 'text.primary' }}>Celsius</Typography>}
                             />
                             <FormControlLabel
                                 value="F"
-                                control={
-                                    <Radio sx={{
-                                        color: theme.palette.mode === 'dark' ? '#fff' : '#000',
-                                        '&.Mui-checked': { color: theme.palette.primary.main },
-                                    }} />
-                                }
-                                label={<Typography sx={{ color: theme.palette.mode === 'dark' ? '#fff' : '#000' }}>Fahrenheit</Typography>}
+                                control={<Radio />}
+                                label={<Typography sx={{ color: 'text.primary' }}>Fahrenheit</Typography>}
                             />
                         </RadioGroup>
                     </Box>
 
                     {/* Divider */}
-                    <Box sx={{ height: '1px', backgroundColor: darkMode ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)', mb: 2 }} />
+                    <Divider sx={{ mb: 2 }} />
 
                     {/* Time Format Setting */}
                     <Box>
-                        <Typography sx={{ fontWeight: 600, mb: 1, color: theme.palette.mode === 'dark' ? '#fff' : '#000' }}>
+                        <Typography sx={{ fontWeight: 600, mb: 1, color: 'text.primary' }}>
                             Time Format
                         </Typography>
                         <RadioGroup row value={timeFormat} onChange={(e) => onTimeFormatChange(e.target.value)} sx={{ justifyContent: 'space-around' }}>
                             <FormControlLabel
                                 value="12h"
-                                control={
-                                    <Radio sx={{
-                                        color: theme.palette.mode === 'dark' ? '#fff' : '#000',
-                                        '&.Mui-checked': { color: theme.palette.primary.main },
-                                    }} />
-                                }
-                                label={<Typography sx={{ color: theme.palette.mode === 'dark' ? '#fff' : '#000' }}>12 Hour</Typography>}
+                                control={<Radio />}
+                                label={<Typography sx={{ color: 'text.primary' }}>12 Hour</Typography>}
                             />
                             <FormControlLabel
                                 value="24h"
-                                control={
-                                    <Radio sx={{
-                                        color: theme.palette.mode === 'dark' ? '#fff' : '#000',
-                                        '&.Mui-checked': { color: theme.palette.primary.main },
-                                    }} />
-                                }
-                                label={<Typography sx={{ color: theme.palette.mode === 'dark' ? '#fff' : '#000' }}>24 Hour</Typography>}
+                                control={<Radio />}
+                                label={<Typography sx={{ color: 'text.primary' }}>24 Hour</Typography>}
                             />
                         </RadioGroup>
                     </Box>
