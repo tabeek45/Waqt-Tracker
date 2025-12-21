@@ -166,22 +166,27 @@ export default function LocationSearch({ onLocationSelected }) {
         }}
         renderOption={(props, option) => {
           const { key, ...otherProps } = props;
-
-          if (option.isCurrentLocation) {
-            return (
-              <li key={key} {...otherProps} style={{ borderBottom: `1px solid ${theme.palette.divider}`, backgroundColor: theme.palette.background.paper }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', color: theme.palette.primary.main, fontWeight: 'bold' }}>
-                  {geoLoading ? <CircularProgress size={20} sx={{ mr: 1 }} /> : <MyLocationIcon sx={{ mr: 1, fontSize: 20 }} />}
-                  <Typography variant="body2" sx={{ fontWeight: 600 }}>{option.name}</Typography>
-                </Box>
-              </li>
-            );
-          }
           return (
             <li key={key} {...otherProps}>
-              <Box>
-                <Typography variant="body1">{option.name}</Typography>
-                <Typography variant="caption" color="text.secondary">{option.country}</Typography>
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                width: '100%',
+                minHeight: '36px' // Ensures consistent row height even without subtext
+              }}>
+                {option.isCurrentLocation && (
+                  <MyLocationIcon sx={{ mr: 1, fontSize: 20, color: theme.palette.primary.main }} />
+                )}
+                <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                  <Typography variant="body1" sx={{ fontWeight: option.isCurrentLocation ? 700 : 400, lineHeight: 1.2 }}>
+                    {option.name}
+                  </Typography>
+                  {option.country && (
+                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block' }}>
+                      {option.country}
+                    </Typography>
+                  )}
+                </Box>
               </Box>
             </li>
           );
@@ -196,7 +201,7 @@ export default function LocationSearch({ onLocationSelected }) {
               ...params.InputProps,
               endAdornment: (
                 <>
-                  {loading && <CircularProgress color="inherit" size={20} sx={{ ml: 1 }} />}
+                  {(loading || geoLoading) && <CircularProgress color="inherit" size={20} sx={{ ml: 1 }} />}
                   {params.InputProps.endAdornment}
                 </>
               ),

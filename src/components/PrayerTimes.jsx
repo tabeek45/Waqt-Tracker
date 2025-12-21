@@ -121,11 +121,8 @@ export default function PrayerTimes({ times, locationTimezone, timeFormat = "12h
 
                     return (
                         <Grid
-                            item
                             key={name}
-                            xs={6}   // 2 per row on Mobile
-                            sm={4}   // 3 per row on Tablet
-                            md={2}   // 6 per row on Desktop
+                            size={{ xs: 6, sm: 4, md: 2 }}
                         >
                             <Card
                                 sx={{
@@ -146,7 +143,7 @@ export default function PrayerTimes({ times, locationTimezone, timeFormat = "12h
                                         variant="subtitle1"
                                         sx={{
                                             fontWeight: "bold",
-                                            fontSize: { xs: "0.85rem", md: "1rem" },
+                                            fontSize: { xs: "0.85rem", sm: "1rem" },
                                             whiteSpace: "nowrap"
                                         }}
                                         color={showActive ? "primary" : "textSecondary"}
@@ -157,7 +154,7 @@ export default function PrayerTimes({ times, locationTimezone, timeFormat = "12h
                                     <Typography
                                         sx={{
                                             fontWeight: "bold",
-                                            fontSize: { xs: "1.1rem", md: "1.75rem" },
+                                            fontSize: { xs: "1.1rem", sm: "1.75rem" },
                                             my: 0.5
                                         }}
                                     >
@@ -169,7 +166,7 @@ export default function PrayerTimes({ times, locationTimezone, timeFormat = "12h
                                             sx={{
                                                 fontWeight: "bold",
                                                 color: theme.palette.error.main,
-                                                fontSize: { xs: "0.8rem", md: "1rem" },
+                                                fontSize: { xs: "0.8rem", sm: "1rem" },
                                             }}
                                         >
                                             -{countdown}

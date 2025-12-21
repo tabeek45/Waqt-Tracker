@@ -56,8 +56,8 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
                 const dates = [];
                 const today = new Date();
 
-                // Generate next 7 days
-                for (let i = 0; i < 7; i++) {
+                // Generate next 7 days starting from tomorrow
+                for (let i = 1; i <= 7; i++) {
                     const d = new Date(today);
                     d.setDate(today.getDate() + i);
 
@@ -79,7 +79,7 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
                     if (res.data && res.data.timings) {
                         return {
                             date: dates[index], // Use the request date string
-                            readableDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() + index).toLocaleDateString('en-US', { weekday: 'short', day: '2-digit', month: 'short' }),
+                            readableDate: new Date(today.getFullYear(), today.getMonth(), today.getDate() + index + 1).toLocaleDateString('en-US', { weekday: 'short', day: '2-digit', month: 'short' }),
                             timings: res.data.timings
                         };
                     }

@@ -18,6 +18,7 @@ const STORAGE_KEYS = {
     LOCATION_LABEL: 'waqt_tracker_locationLabel',
     LOCATION_TIMEZONE: 'waqt_tracker_locationTimezone',
     PRAYER_SETTINGS: 'waqt_tracker_prayerSettings',
+    PRAYER_TIMES: 'waqt_tracker_prayerTimes',
 };
 
 // Load from localStorage with fallback
@@ -53,7 +54,7 @@ export default function usePrayerTimes() {
         loadFromStorage(STORAGE_KEYS.LOCATION_TIMEZONE, Intl.DateTimeFormat().resolvedOptions().timeZone)
     );
 
-    const [times, setTimes] = useState(null);
+    const [times, setTimes] = useState(() => loadFromStorage(STORAGE_KEYS.PRAYER_TIMES, null));
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -105,6 +106,7 @@ export default function usePrayerTimes() {
                 if (!active) return;
 
                 setTimes(data.timings);
+                saveToStorage(STORAGE_KEYS.PRAYER_TIMES, data.timings);
                 setLocationTimezone(data.meta.timezone);
             } catch (err) {
                 if (active) {

@@ -61,9 +61,7 @@ function App() {
         handleLocationSelected,
         setCurrentSettings,
         latitude,
-        longitude,
-        weather,
-        aqi
+        longitude
     } = usePrayerTimes();
 
 
@@ -71,6 +69,39 @@ function App() {
     const [darkMode, setDarkMode] = useState(() => loadFromStorage(UI_STORAGE_KEYS.DARK_MODE, false));
     const [tempUnit, setTempUnit] = useState(() => loadFromStorage(UI_STORAGE_KEYS.TEMP_UNIT, 'C'));
     const [timeFormat, setTimeFormat] = useState(() => loadFromStorage(UI_STORAGE_KEYS.TIME_FORMAT, '12h'));
+
+    // Hide the initial HTML loader once React is ready
+    useEffect(() => {
+        const hideInitialLoader = () => {
+            const initialLoader = document.getElementById('initial-loader');
+            if (initialLoader) {
+                initialLoader.classList.add('hidden');
+                // Remove from DOM after fade out
+                setTimeout(() => {
+                    if (initialLoader.parentNode) {
+                        initialLoader.remove();
+                    }
+                }, 300);
+            }
+        };
+
+        // Hide when page is loaded and React content is ready
+        if (document.readyState === 'complete' && !loading) {
+            hideInitialLoader();
+        } else {
+            // Wait for window load
+            window.addEventListener('load', () => {
+                if (!loading) {
+                    hideInitialLoader();
+                }
+            }, { once: true });
+        }
+
+        // Also check when loading state changes
+        if (!loading && document.readyState === 'complete') {
+            hideInitialLoader();
+        }
+    }, [loading]);
 
     // Persist preferences
     useEffect(() => {
@@ -139,7 +170,7 @@ function App() {
                         fontWeight: 'bold',
                         color: theme.palette.text.primary
                     })}>
-                        {loading ? <CircularProgress size={24} color="inherit" /> : <><LocationOnIcon color="error" /> {locationLabel}</>}
+                        <LocationOnIcon color="error" /> {locationLabel}
                     </Typography>
 
                     <Box sx={(theme) => ({
@@ -159,10 +190,9 @@ function App() {
 
                 </Box>
 
-                {loading && <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}><CircularProgress /></Box>}
                 {error && <Alert severity="error" sx={{ width: '100%' }}>{error}</Alert>}
 
-                {!loading && !error && (
+                {(times || !loading) && !error && (
                     <>
                         <PrayerTimes times={times} locationTimezone={locationTimezone} timeFormat={timeFormat} />
                         <MethodSelector currentSettings={currentSettings} onSettingsChange={handleSettingsChange} />
