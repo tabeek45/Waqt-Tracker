@@ -5,7 +5,6 @@ import React, { useState, useEffect } from "react";
 import { ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Container from '@mui/material/Container';
-import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
@@ -54,7 +53,6 @@ function App() {
     const {
         locationLabel,
         times,
-        loading,
         error,
         locationTimezone,
         currentSettings,
@@ -69,39 +67,6 @@ function App() {
     const [darkMode, setDarkMode] = useState(() => loadFromStorage(UI_STORAGE_KEYS.DARK_MODE, false));
     const [tempUnit, setTempUnit] = useState(() => loadFromStorage(UI_STORAGE_KEYS.TEMP_UNIT, 'C'));
     const [timeFormat, setTimeFormat] = useState(() => loadFromStorage(UI_STORAGE_KEYS.TIME_FORMAT, '12h'));
-
-    // Hide the initial HTML loader once React is ready
-    useEffect(() => {
-        const hideInitialLoader = () => {
-            const initialLoader = document.getElementById('initial-loader');
-            if (initialLoader) {
-                initialLoader.classList.add('hidden');
-                // Remove from DOM after fade out
-                setTimeout(() => {
-                    if (initialLoader.parentNode) {
-                        initialLoader.remove();
-                    }
-                }, 300);
-            }
-        };
-
-        // Hide when page is loaded and React content is ready
-        if (document.readyState === 'complete' && !loading) {
-            hideInitialLoader();
-        } else {
-            // Wait for window load
-            window.addEventListener('load', () => {
-                if (!loading) {
-                    hideInitialLoader();
-                }
-            }, { once: true });
-        }
-
-        // Also check when loading state changes
-        if (!loading && document.readyState === 'complete') {
-            hideInitialLoader();
-        }
-    }, [loading]);
 
     // Persist preferences
     useEffect(() => {
@@ -192,7 +157,7 @@ function App() {
 
                 {error && <Alert severity="error" sx={{ width: '100%' }}>{error}</Alert>}
 
-                {(times || !loading) && !error && (
+                {times && !error && (
                     <>
                         <PrayerTimes times={times} locationTimezone={locationTimezone} timeFormat={timeFormat} />
                         <MethodSelector currentSettings={currentSettings} onSettingsChange={handleSettingsChange} />

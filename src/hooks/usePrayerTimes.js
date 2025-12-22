@@ -55,7 +55,6 @@ export default function usePrayerTimes() {
     );
 
     const [times, setTimes] = useState(() => loadFromStorage(STORAGE_KEYS.PRAYER_TIMES, null));
-    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     // Load prayer settings from localStorage or use country-based default
@@ -92,9 +91,7 @@ export default function usePrayerTimes() {
         let active = true;
 
         const fetchPrayerTimes = async () => {
-            setLoading(true);
             setError(null);
-
             try {
                 const data = await getPrayerTimesByCoords(
                     latitude,
@@ -111,10 +108,6 @@ export default function usePrayerTimes() {
             } catch (err) {
                 if (active) {
                     setError('Failed to load prayer times');
-                }
-            } finally {
-                if (active) {
-                    setLoading(false);
                 }
             }
         };
@@ -152,7 +145,6 @@ export default function usePrayerTimes() {
         locationLabel,
         locationTimezone,
         times,
-        loading,
         error,
         currentSettings,
         setCurrentSettings,

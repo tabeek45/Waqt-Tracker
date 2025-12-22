@@ -42,129 +42,12 @@
         background-color: #0F131A;
       }
     }
-
-    #initial-loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      width: 100vw;
-      height: 100vh;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 99999;
-      margin: 0;
-      padding: 0;
-      opacity: 1;
-      transition: opacity 0.3s ease-out;
-      background-color: #D9DEDE;
-      /* Default light theme */
-    }
-
-    #initial-loader.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .loader-content {
-      text-align: center;
-    }
-
-    .loader-title {
-      font-family: 'SyamsiahArabic', 'Rethink Sans', serif;
-      font-size: clamp(4rem, 8vw, 7rem);
-      font-weight: bold;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-      animation: breathe 3s ease-in-out infinite;
-      color: #00A360;
-      /* Default light theme color */
-    }
-
-    .loader-message {
-      font-family: 'Rethink Sans', 'RethinkSans', sans-serif;
-      font-size: clamp(0.9rem, 2vw, 1rem);
-      letter-spacing: 0.15rem;
-      text-transform: uppercase;
-      opacity: 0.7;
-      font-weight: 500;
-      color: #415063;
-      /* Default light theme color */
-    }
-
-    @keyframes breathe {
-      0% {
-        transform: scale(1);
-        opacity: 0.8;
-      }
-
-      50% {
-        transform: scale(1.05);
-        opacity: 1;
-      }
-
-      100% {
-        transform: scale(1);
-        opacity: 0.8;
-      }
-    }
-
-    /* Check localStorage for dark mode preference */
-    @media (prefers-color-scheme: dark) {
-      #initial-loader {
-        background-color: #0F131A;
-      }
-
-      .loader-title {
-        color: #82B1FF;
-      }
-
-      .loader-message {
-        color: #94A3B8;
-      }
-    }
   </style>
 </head>
 
 <body>
-  <!-- Initial loader - shows immediately before React loads -->
-  <div id="initial-loader">
-    <div class="loader-content">
-      <div class="loader-title">Waqt<br>Tracker</div>
-      <div class="loader-message">Please wait</div>
-    </div>
-  </div>
   <div id="root"></div>
   <script type="module" src="/src/main.jsx"></script>
-  <script>
-    // Set theme colors immediately based on localStorage
-    (function () {
-      try {
-        const darkMode = localStorage.getItem('waqt_tracker_darkMode');
-        const isDark = darkMode === 'true';
-        const bgColor = isDark ? '#0F131A' : '#D9DEDE';
-        const titleColor = isDark ? '#82B1FF' : '#00A360';
-        const textColor = isDark ? '#94A3B8' : '#415063';
-
-        // Set colors immediately
-        document.documentElement.style.backgroundColor = bgColor;
-        const loader = document.getElementById('initial-loader');
-        if (loader) {
-          loader.style.backgroundColor = bgColor;
-          const title = loader.querySelector('.loader-title');
-          const message = loader.querySelector('.loader-message');
-          if (title) title.style.color = titleColor;
-          if (message) message.style.color = textColor;
-        }
-      } catch (e) {
-        // Fallback - already has default colors in CSS
-      }
-    })();
-  </script>
 </body>
 
 </html>
