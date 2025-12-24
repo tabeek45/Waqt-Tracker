@@ -139,11 +139,27 @@ export default function PrayerTimes({ times, locationTimezone, timeFormat = "12h
                                 }}
                             >
                                 <CardContent sx={{ py: 1.5, "&:last-child": { pb: 1.5 } }}>
+                                    {/* Upcoming Prayer Label */}
+                                    {showActive && (
+                                        <Typography
+                                            sx={{
+                                                color: theme.palette.error.main,
+                                                fontSize: { xs: "0.65rem", sm: "0.75rem" },
+                                                fontWeight: "bold",
+                                                textTransform: "uppercase",
+                                                letterSpacing: 1,
+                                                mb: 0.5
+                                            }}
+                                        >
+                                            Upcoming Prayer
+                                        </Typography>
+                                    )}
+
                                     <Typography
                                         variant="subtitle1"
                                         sx={{
                                             fontWeight: "bold",
-                                            fontSize: { xs: "0.85rem", sm: "1rem" },
+                                            fontSize: "1.3rem",
                                             whiteSpace: "nowrap"
                                         }}
                                         color={showActive ? "primary" : "textSecondary"}

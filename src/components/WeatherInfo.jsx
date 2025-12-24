@@ -7,7 +7,8 @@ export default function WeatherInfo({
     latitude,
     longitude,
     locationTimezone,
-    tempUnit = 'C'
+    tempUnit = 'C',
+    timeFormat = '12h'
 }) {
     const theme = useTheme();
 
@@ -34,7 +35,7 @@ export default function WeatherInfo({
                     timeZone: locationTimezone,
                     hour: '2-digit',
                     minute: '2-digit',
-                    hour12: true,
+                    hour12: timeFormat === '12h',
                 })
             );
 
@@ -59,7 +60,7 @@ export default function WeatherInfo({
         updateTime();
         const timer = setInterval(updateTime, 1000);
         return () => clearInterval(timer);
-    }, [locationTimezone]);
+    }, [locationTimezone, timeFormat]);
 
 
     useEffect(() => {
@@ -69,8 +70,9 @@ export default function WeatherInfo({
 
         const fetchWeatherAndAQI = async () => {
             try {
+                // Added is_day to params to distinguish day vs night icons
                 const weatherRes = await fetch(
-                    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code&timezone=auto`
+                    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,weather_code,is_day&timezone=auto`
                 );
                 const weatherData = await weatherRes.json();
 
@@ -78,9 +80,11 @@ export default function WeatherInfo({
                     setWeather({
                         temperature: Math.round(weatherData.current.temperature_2m),
                         weatherCode: weatherData.current.weather_code,
+                        isDay: weatherData.current.is_day,
                     });
                 }
 
+                // Ensuring US AQI is requested to match standard ranges (0-500)
                 const aqiRes = await fetch(
                     `https://air-quality-api.open-meteo.com/v1/air-quality?latitude=${latitude}&longitude=${longitude}&current=us_aqi`
                 );
@@ -99,15 +103,17 @@ export default function WeatherInfo({
     }, [latitude, longitude]);
 
 
-    const getWeatherInfo = (code) => {
-        if (code === 0) return { icon: '☀️', label: 'Sunny' };
-        if (code <= 3) return { icon: '⛅', label: 'Partly Cloudy' };
+    const getWeatherInfo = (code, isDay) => {
+        const isNight = isDay === 0;
+
+        if (code === 0) return { icon: isNight ? '🌙' : '☀️', label: isNight ? 'Clear' : 'Sunny' };
+        if (code <= 3) return { icon: isNight ? '☁️' : '⛅', label: 'Partly Cloudy' };
         if (code <= 48) return { icon: '🌫️', label: 'Foggy' };
         if (code <= 67) return { icon: '🌧️', label: 'Rainy' };
         if (code <= 77) return { icon: '🌨️', label: 'Snowy' };
         if (code <= 82) return { icon: '🌦️', label: 'Showers' };
         if (code <= 99) return { icon: '⛈️', label: 'Stormy' };
-        return { icon: '🌤️', label: 'Clear' };
+        return { icon: isNight ? '🌙' : '☀️', label: isNight ? 'Clear' : 'Clear' };
     };
 
     const getAQIInfo = (value) => {
@@ -119,7 +125,7 @@ export default function WeatherInfo({
         return { color: '#7e0023', label: 'Hazardous' };
     };
 
-    const weatherInfo = weather ? getWeatherInfo(weather.weatherCode) : null;
+    const weatherInfo = weather ? getWeatherInfo(weather.weatherCode, weather.isDay) : null;
     const aqiInfo = aqi !== null ? getAQIInfo(aqi) : null;
 
     if (!latitude || !longitude) return null;
@@ -161,7 +167,7 @@ export default function WeatherInfo({
                         <Box sx={{
                             p: 2,
                             borderRadius: 2,
-                            border: `2px solid ${theme.palette.primary.main}`,
+                            border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)', // MATCHING BORDER
                             backgroundColor: bgColor,
                             display: 'flex',
                             alignItems: 'center',

@@ -151,6 +151,7 @@ function App() {
                         longitude={longitude}
                         locationTimezone={locationTimezone}
                         tempUnit={tempUnit}
+                        timeFormat={timeFormat}
                     />
 
                 </Box>
