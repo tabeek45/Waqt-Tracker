@@ -159,7 +159,7 @@ export default function PrayerTimes({ times, locationTimezone, timeFormat = "12h
                                         variant="subtitle1"
                                         sx={{
                                             fontWeight: "bold",
-                                            fontSize: "1.3rem",
+                                            fontSize: { xs: "1.1rem", sm: "1.3rem" },
                                             whiteSpace: "nowrap"
                                         }}
                                         color={showActive ? "primary" : "textSecondary"}
