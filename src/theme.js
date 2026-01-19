@@ -29,6 +29,8 @@ export const lightTheme = createTheme({
         body: {
           background: "linear-gradient(135deg, #F8FAFC 0%, #94A3B8 100%)",
           backgroundAttachment: "fixed",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
           minHeight: "100vh",
         },
       },
@@ -69,8 +71,10 @@ export const darkTheme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          background: "linear-gradient(135deg, #020617 0%, #334155 100%)",
+          background: "linear-gradient(135deg, #020617 0%, #201b5fff 100%)",
           backgroundAttachment: "fixed",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
           minHeight: "100vh",
           color: "#E3E9F0",
         },
