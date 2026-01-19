@@ -87,7 +87,7 @@ export default function MethodSelector({ currentSettings, onSettingsChange }) {
                 sx={(theme) => ({
                     backgroundColor: 'background.paper',
                     padding: '10px 20px',
-                    borderRadius: '8px',
+                    borderRadius: '12px',
                     border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
                     display: 'flex',
                     alignItems: 'center',

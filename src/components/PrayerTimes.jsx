@@ -136,6 +136,7 @@ export default function PrayerTimes({ times, locationTimezone, timeFormat = "12h
                                     border: showActive ? `2px solid ${theme.palette.primary.main}` : (theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)'),
                                     boxShadow: 'none',
                                     backgroundColor: theme.palette.background.paper,
+                                    borderRadius: '24px',
                                 }}
                             >
                                 <CardContent sx={{ py: 1.5, "&:last-child": { pb: 1.5 } }}>

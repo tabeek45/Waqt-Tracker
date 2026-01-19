@@ -117,7 +117,7 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
                     mb: 1,
                     backgroundColor: theme.palette.background.paper,
                     padding: '8px 16px',
-                    borderRadius: '8px',
+                    borderRadius: '12px',
                     border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
                     width: 'fit-content',
                     mx: 'auto',
@@ -150,7 +150,7 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
                         sx={{
                             backgroundColor: tableBgColor,
                             border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
-                            borderRadius: 2,
+                            borderRadius: '12px',
                             boxShadow: 'none',
                             overflowX: 'auto',
                             width: '100%',

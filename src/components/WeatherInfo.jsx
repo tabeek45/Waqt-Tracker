@@ -144,7 +144,7 @@ export default function WeatherInfo({
                 <Grid size="auto">
                     <Box sx={{
                         p: 2,
-                        borderRadius: 2,
+                        borderRadius: '24px',
                         border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
                         backgroundColor: bgColor,
                         display: 'flex',
@@ -166,7 +166,7 @@ export default function WeatherInfo({
                     <Grid size="auto">
                         <Box sx={{
                             p: 2,
-                            borderRadius: 2,
+                            borderRadius: '24px',
                             border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)', // MATCHING BORDER
                             backgroundColor: bgColor,
                             display: 'flex',
@@ -198,7 +198,7 @@ export default function WeatherInfo({
                     <Grid size="auto">
                         <Box sx={{
                             p: 2,
-                            borderRadius: 2,
+                            borderRadius: '24px',
                             border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
                             backgroundColor: bgColor,
                             display: 'flex',

@@ -8,7 +8,7 @@ import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Typography from '@mui/material/Typography';
-import Collapse from '@mui/material/Collapse';
+import Grow from '@mui/material/Grow';
 import { useTheme } from '@mui/material/styles';
 import LightModeIcon from '@mui/icons-material/LightMode';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
@@ -63,7 +63,7 @@ export default function Settings({
                     color: 'text.primary',
                     backgroundColor: 'background.paper',
                     border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
-                    transition: 'all 0.3s ease',
+                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     '&:hover': {
                         backgroundColor: theme.palette.mode === 'dark' ? '#1A2940' : '#F3F6F8',
                     },
@@ -74,19 +74,23 @@ export default function Settings({
             </IconButton>
 
             {/* Settings Menu */}
-            <Collapse in={open} timeout={200}>
+            <Grow 
+                in={open} 
+                style={{ transformOrigin: 'top right' }}
+                {...(open ? { timeout: 300 } : {})}
+            >
                 <Box
                     ref={containerRef}
                     sx={{
                         position: 'absolute',
-                        top: '60px',
+                        top: '55px',
                         right: 0,
                         minWidth: '280px',
                         backgroundColor: 'background.paper',
                         border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
-                        borderRadius: '8px',
-                        padding: '20px',
-                        boxShadow: 'none',
+                        borderRadius: '24px',
+                        padding: '24px',
+                        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
                         zIndex: 1100,
                     }}
                 >
@@ -151,7 +155,7 @@ export default function Settings({
                         </RadioGroup>
                     </Box>
                 </Box>
-            </Collapse>
+            </Grow>
         </Box>
     );
 }
