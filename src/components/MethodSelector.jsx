@@ -88,7 +88,7 @@ export default function MethodSelector({ currentSettings, onSettingsChange }) {
                     backgroundColor: 'background.paper',
                     padding: '10px 20px',
                     borderRadius: '12px',
-                    border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
+                    border: `1px solid ${theme.palette.divider}`,
                     display: 'flex',
                     alignItems: 'center',
                     gap: 1.5,

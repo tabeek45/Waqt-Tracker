@@ -118,7 +118,7 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
                     backgroundColor: theme.palette.background.paper,
                     padding: '8px 16px',
                     borderRadius: '12px',
-                    border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
+                    border: `1px solid ${theme.palette.divider}`,
                     width: 'fit-content',
                     mx: 'auto',
                 }}
@@ -149,7 +149,7 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
                         component={Paper}
                         sx={{
                             backgroundColor: tableBgColor,
-                            border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
+                            border: `1px solid ${theme.palette.divider}`,
                             borderRadius: '12px',
                             boxShadow: 'none',
                             overflowX: 'auto',
@@ -193,7 +193,7 @@ export default function PrayerTimeTable({ latitude, longitude, method, school, t
                                             '&:last-child td, &:last-child th': { border: 0 },
                                             backgroundColor: index % 2 === 0
                                                 ? 'transparent'
-                                                : (theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)') // clearer alternating rows
+                                                : theme.palette.custom.tableRowAlt // clearer alternating rows
                                         }}
                                     >
                                         <TableCell component="th" scope="row" sx={{

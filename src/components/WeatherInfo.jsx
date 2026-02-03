@@ -117,16 +117,17 @@ export default function WeatherInfo({
     };
 
     const getAQIInfo = (value) => {
-        if (value <= 50) return { color: '#00e400', label: 'Good' };
-        if (value <= 100) return { color: '#ffff00', label: 'Moderate' };
-        if (value <= 150) return { color: '#ff7e00', label: 'Sensitive' };
-        if (value <= 200) return { color: '#ff0000', label: 'Unhealthy' };
-        if (value <= 300) return { color: '#8f3f97', label: 'Very Unhealthy' };
-        return { color: '#7e0023', label: 'Hazardous' };
+        if (value <= 50) return { color: '#3E9C78', label: 'Good' };
+        if (value <= 100) return { color: '#A5A35D', label: 'Moderate' };
+        if (value <= 150) return { color: '#C08A5B', label: 'Sensitive' };
+        if (value <= 200) return { color: '#B36273', label: 'Unhealthy' };
+        if (value <= 300) return { color: '#7B4B8C', label: 'Very Unhealthy' };
+        return { color: '#5B2B3B', label: 'Hazardous' };
     };
 
     const weatherInfo = weather ? getWeatherInfo(weather.weatherCode, weather.isDay) : null;
     const aqiInfo = aqi !== null ? getAQIInfo(aqi) : null;
+    const aqiTextColor = aqiInfo ? theme.palette.getContrastText(aqiInfo.color) : theme.palette.text.primary;
 
     if (!latitude || !longitude) return null;
 
@@ -134,58 +135,62 @@ export default function WeatherInfo({
         <Box sx={{ width: '100%', pb: 2, px: 1 }}>
             <Grid
                 container
-                spacing={2}
+                columnSpacing={{ xs: 1, sm: 2 }}
+                rowSpacing={0}
                 alignItems="flex-start"
                 justifyContent="center"
-                wrap="wrap"
+                wrap="nowrap"
+                sx={{ flexWrap: 'nowrap', width: '100%' }}
             >
 
                 {/* Time Box */}
-                <Grid size="auto">
+                <Grid size="auto" sx={{ flex: { xs: '1 1 0', md: '0 0 auto' }, minWidth: 0 }}>
                     <Box sx={{
-                        p: 2,
+                        p: { xs: 1, sm: 2 },
                         borderRadius: '24px',
-                        border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
+                        border: `1px solid ${theme.palette.divider}`,
                         backgroundColor: bgColor,
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
                         justifyContent: 'center',
-                        minHeight: BOX_HEIGHT,
+                        minHeight: { xs: 60, sm: BOX_HEIGHT },
+                        width: { xs: '100%', md: 190 },
                     }}>
                         <Box sx={{ display: 'flex', alignItems: 'baseline', gap: 0.5 }}>
-                            <Box sx={{ fontSize: { xs: '1rem', sm: '1.25rem' }, fontWeight: 700 }}>{currentTime}</Box>
-                            <Box sx={{ fontSize: { xs: '0.6rem', sm: '0.7rem' }, color: 'text.secondary' }}>{gmtOffset}</Box>
+                            <Box sx={{ fontSize: { xs: '0.9rem', sm: '1.25rem' }, fontWeight: 700 }}>{currentTime}</Box>
+                            <Box sx={{ fontSize: { xs: '0.55rem', sm: '0.7rem' }, color: 'text.secondary' }}>{gmtOffset}</Box>
                         </Box>
-                        <Box sx={{ fontSize: { xs: '0.75rem', sm: '0.85rem' } }}>{currentDate}</Box>
+                        <Box sx={{ fontSize: { xs: '0.65rem', sm: '0.85rem' } }}>{currentDate}</Box>
                     </Box>
                 </Grid>
 
                 {/* Weather Box */}
                 {weatherInfo && (
-                    <Grid size="auto">
+                    <Grid size="auto" sx={{ flex: { xs: '1 1 0', md: '0 0 auto' }, minWidth: 0 }}>
                         <Box sx={{
-                            p: 2,
+                            p: { xs: 1, sm: 2 },
                             borderRadius: '24px',
-                            border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)', // MATCHING BORDER
+                            border: `1px solid ${theme.palette.divider}`, // MATCHING BORDER
                             backgroundColor: bgColor,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            gap: 1,
-                            minHeight: BOX_HEIGHT,
+                            gap: { xs: 0.5, sm: 1 },
+                            minHeight: { xs: 60, sm: BOX_HEIGHT },
+                            width: { xs: '100%', md: 200 },
                         }}>
-                            <Box sx={{ fontSize: { xs: '1.5rem', sm: '1.8rem' } }}>{weatherInfo.icon}</Box>
+                            <Box sx={{ fontSize: { xs: '1.2rem', sm: '1.8rem' } }}>{weatherInfo.icon}</Box>
 
                             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                <Box sx={{ fontSize: { xs: '1rem', sm: '1.1rem' }, fontWeight: 700 }}>
+                                <Box sx={{ fontSize: { xs: '0.9rem', sm: '1.1rem' }, fontWeight: 700 }}>
                                     {tempUnit === 'F'
                                         ? Math.round((weather.temperature * 9) / 5 + 32)
                                         : weather.temperature}
                                     °{tempUnit}
                                 </Box>
 
-                                <Box sx={{ fontSize: { xs: '0.65rem', sm: '0.75rem' }, color: 'text.secondary' }}>
+                                <Box sx={{ fontSize: { xs: '0.6rem', sm: '0.75rem' }, color: 'text.secondary' }}>
                                     {weatherInfo.label}
                                 </Box>
                             </Box>
@@ -195,19 +200,20 @@ export default function WeatherInfo({
 
                 {/* AQI Box */}
                 {aqiInfo && (
-                    <Grid size="auto">
+                    <Grid size="auto" sx={{ flex: { xs: '1 1 0', md: '0 0 auto' }, minWidth: 0 }}>
                         <Box sx={{
-                            p: 2,
+                            p: { xs: 1, sm: 2 },
                             borderRadius: '24px',
-                            border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
+                            border: `1px solid ${theme.palette.divider}`,
                             backgroundColor: bgColor,
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            gap: 1,
-                            minHeight: BOX_HEIGHT,
+                            gap: { xs: 0.5, sm: 1 },
+                            minHeight: { xs: 60, sm: BOX_HEIGHT },
+                            width: { xs: '100%', md: 180 },
                         }}>
-                            <Box sx={{ fontWeight: 600, fontSize: { xs: '0.9rem', sm: '1rem' }, color: 'text.primary' }}>AQI:</Box>
+                            <Box sx={{ fontWeight: 600, fontSize: { xs: '0.8rem', sm: '1rem' }, color: 'text.primary' }}>AQI:</Box>
 
                             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                                 <Box sx={{
@@ -215,14 +221,14 @@ export default function WeatherInfo({
                                     py: '2px',
                                     borderRadius: 20,
                                     fontWeight: 700,
-                                    fontSize: { xs: '0.9rem', sm: '1rem' },
+                                    fontSize: { xs: '0.85rem', sm: '1rem' },
                                     backgroundColor: aqiInfo.color,
-                                    color: aqi > 100 ? '#fff' : '#000',
+                                    color: aqiTextColor,
                                 }}>
                                     {aqi}
                                 </Box>
 
-                                <Box sx={{ fontSize: { xs: '0.65rem', sm: '0.75rem' }, color: 'text.secondary' }}>
+                                <Box sx={{ fontSize: { xs: '0.6rem', sm: '0.75rem' }, color: 'text.secondary' }}>
                                     {aqiInfo.label}
                                 </Box>
                             </Box>

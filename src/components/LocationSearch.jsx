@@ -122,7 +122,7 @@ export default function LocationSearch({ onLocationSelected }) {
             },
           },
           '& .MuiOutlinedInput-notchedOutline': {
-            borderColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.2)',
+            borderColor: theme.palette.divider,
             borderWidth: '1px',
             borderRadius: '24px',
             transition: 'border-color 0.2s',

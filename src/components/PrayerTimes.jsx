@@ -133,7 +133,7 @@ export default function PrayerTimes({ times, locationTimezone, timeFormat = "12h
                                     justifyContent: "center",
                                     textAlign: "center",
                                     // Scale transform removed for flat design
-                                    border: showActive ? `2px solid ${theme.palette.primary.main}` : (theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)'),
+                                    border: showActive ? `2px solid ${theme.palette.primary.main}` : `1px solid ${theme.palette.divider}`,
                                     boxShadow: 'none',
                                     backgroundColor: theme.palette.background.paper,
                                     borderRadius: '24px',

@@ -62,10 +62,10 @@ export default function Settings({
                 sx={{
                     color: 'text.primary',
                     backgroundColor: 'background.paper',
-                    border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
+                    border: `1px solid ${theme.palette.divider}`,
                     transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                     '&:hover': {
-                        backgroundColor: theme.palette.mode === 'dark' ? '#1A2940' : '#F3F6F8',
+                        backgroundColor: theme.palette.custom.surfaceAlt,
                     },
                     transform: open ? 'rotate(90deg)' : 'rotate(0deg)',
                 }}
@@ -87,10 +87,12 @@ export default function Settings({
                         right: 0,
                         minWidth: '280px',
                         backgroundColor: 'background.paper',
-                        border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
+                        border: `1px solid ${theme.palette.divider}`,
                         borderRadius: '24px',
                         padding: '24px',
-                        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+                        boxShadow: theme.palette.mode === 'dark'
+                            ? '0 14px 28px -16px rgba(8, 15, 24, 0.7)'
+                            : '0 12px 26px -12px rgba(13, 28, 22, 0.18)',
                         zIndex: 1100,
                     }}
                 >
@@ -98,7 +100,7 @@ export default function Settings({
                     <Box sx={{ mb: 2 }}>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                                <LightModeIcon sx={{ color: theme.palette.mode === 'dark' ? '#b0b0b0' : theme.palette.primary.main, fontSize: '1.2rem' }} />
+                                <LightModeIcon sx={{ color: theme.palette.mode === 'dark' ? theme.palette.text.secondary : theme.palette.primary.main, fontSize: '1.2rem' }} />
                                 <Typography sx={{ fontWeight: 600, color: 'text.primary' }}>
                                     Theme
                                 </Typography>

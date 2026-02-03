@@ -66,7 +66,7 @@ export default function DateAndTime({ locationTimezone }) {
                 py: 1,
                 borderRadius: 4,
                 bgcolor: 'background.paper',
-                border: theme.palette.mode === 'dark' ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
+                border: `1px solid ${theme.palette.divider}`,
             }}
         >
             <Typography variant="h4" component="div" sx={{ fontWeight: 'bold', lineHeight: 1 }}>
